@@ -12,7 +12,7 @@ public class ThermometerDTO implements Serializable {
 
     private int id;
     private String deviceId;
-    private Float temp;
+    private Double temp;
 
 
     public ThermometerDTO(ThermometerEntity thermometerEntity) {
@@ -37,11 +37,11 @@ public class ThermometerDTO implements Serializable {
         this.deviceId = deviceId;
     }
 
-    public Float getTemp() {
+    public Double getTemp() {
         return temp;
     }
 
-    public void setTemp(Float temp) {
+    public void setTemp(Double temp) {
         this.temp = temp;
     }
 }

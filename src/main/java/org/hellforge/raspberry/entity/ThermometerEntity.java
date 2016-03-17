@@ -15,7 +15,7 @@ public class ThermometerEntity {
     @Column(name = "device_id")
     private String deviceId;
     @Column(name = "temp")
-    private Float temp;
+    private Double temp;
 
     public int getId() {
         return id;
@@ -33,11 +33,11 @@ public class ThermometerEntity {
         this.deviceId = deviceId;
     }
 
-    public Float getTemp() {
+    public Double getTemp() {
         return temp;
     }
 
-    public void setTemp(Float temp) {
+    public void setTemp(Double temp) {
         this.temp = temp;
     }
 }

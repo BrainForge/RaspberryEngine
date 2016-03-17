@@ -21,4 +21,8 @@ public class ThermometerService {
     public List<ThermometerEntity> getAllThermometer(){
         return thermometerRepository.findAll();
     }
+
+    public ThermometerEntity save(ThermometerEntity thermometerEntity){
+        return thermometerRepository.save(thermometerEntity);
+    }
 }
