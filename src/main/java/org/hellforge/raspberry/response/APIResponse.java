@@ -9,7 +9,7 @@ import java.util.Collection;
  */
 public final class APIResponse<T extends Serializable> {
 
-    private final Collection<T> data = new ArrayList<T>();
+    private final Collection<T> data = new ArrayList<>();
 
     public Collection<T> getData() {
         return data;

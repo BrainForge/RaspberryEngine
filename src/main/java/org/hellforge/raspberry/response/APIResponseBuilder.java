@@ -13,13 +13,13 @@ public final class APIResponseBuilder {
     }
 
     public static <T extends Serializable> APIResponse<T> build(Collection<T> elements) {
-        final APIResponse<T> apiResponse = new APIResponse<T>();
+        final APIResponse<T> apiResponse = new APIResponse<>();
         apiResponse.addElements(elements);
         return apiResponse;
     }
 
     public static <T extends Serializable> APIResponse<T> build(T element) {
-        final APIResponse<T> apiResponse = new APIResponse<T>();
+        final APIResponse<T> apiResponse = new APIResponse<>();
         apiResponse.addElement(element);
         return apiResponse;
     }
