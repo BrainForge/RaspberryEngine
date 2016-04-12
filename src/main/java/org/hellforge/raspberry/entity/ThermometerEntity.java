@@ -1,36 +1,32 @@
 package org.hellforge.raspberry.entity;
 
-import javax.persistence.*;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+
+import javax.persistence.Id;
 
 /**
  * Created by Anton Afanasyeu on 17.03.16.
  */
-@Entity
-@Table(name = "thermometers")
+@Document
 public class ThermometerEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
-    @Column(name = "device_id")
-    private String deviceId;
-    @Column(name = "temp")
+    private String id;
+    @Field("temp")
     private Double temp;
 
-    public int getId() {
+    public ThermometerEntity(String id, Double temp) {
+        this.id = id;
+        this.temp = temp;
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
-    }
-
-    public String getDeviceId() {
-        return deviceId;
-    }
-
-    public void setDeviceId(String deviceId) {
-        this.deviceId = deviceId;
     }
 
     public Double getTemp() {

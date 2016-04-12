@@ -10,31 +10,21 @@ import java.io.Serializable;
  */
 public class ThermometerDTO implements Serializable {
 
-    private int id;
-    private String deviceId;
+    private String id;
     private Double temp;
 
 
     public ThermometerDTO(ThermometerEntity thermometerEntity) {
         this.id = thermometerEntity.getId();
-        this.deviceId = thermometerEntity.getDeviceId();
         this.temp = thermometerEntity.getTemp();
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
-    }
-
-    public String getDeviceId() {
-        return deviceId;
-    }
-
-    public void setDeviceId(String deviceId) {
-        this.deviceId = deviceId;
     }
 
     public Double getTemp() {

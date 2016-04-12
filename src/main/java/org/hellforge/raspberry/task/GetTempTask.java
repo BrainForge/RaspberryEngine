@@ -22,14 +22,13 @@ public class GetTempTask {
     public void printMessage() throws IOException, InterruptedException {
 
         for(ThermometerEntity thermometerEntity: thermometerService.getAllThermometer()){
-            thermometerEntity.setTemp(getTemp(thermometerEntity.getDeviceId()));
+            thermometerEntity.setTemp(getTemp(thermometerEntity.getId()));
             thermometerService.save(thermometerEntity);
         }
 
     }
 
     private double getTemp(String tempId) throws IOException, InterruptedException {
-
         String str = GetSystemOut.getSystemOut("cat /sys/bus/w1/devices/"+tempId+"/w1_slave");
         str = str.substring(str.indexOf("t=")+2);
         return Integer.parseInt(str)/1000.0;

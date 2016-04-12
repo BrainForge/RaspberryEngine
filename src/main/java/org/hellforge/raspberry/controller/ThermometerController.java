@@ -1,5 +1,6 @@
 package org.hellforge.raspberry.controller;
 
+import org.hellforge.raspberry.entity.ThermometerEntity;
 import org.hellforge.raspberry.response.APIResponse;
 import org.hellforge.raspberry.response.APIResponseBuilder;
 import org.hellforge.raspberry.response.ThermometerDTO;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.ws.rs.Produces;
@@ -35,5 +37,16 @@ public class ThermometerController {
                 .collect(Collectors.toList());
 
         return APIResponseBuilder.build(thermometerDTOs);
+    }
+
+    @RequestMapping(value = "", method = RequestMethod.POST)
+    @ResponseBody
+    public APIResponse<ThermometerDTO> add(@RequestParam String id, @RequestParam Double temp) {
+
+        return  APIResponseBuilder.build(
+                new ThermometerDTO(
+                        thermometerService.save(
+                                new ThermometerEntity(id, temp))));
+
     }
 }
