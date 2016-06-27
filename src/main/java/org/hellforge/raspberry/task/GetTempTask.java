@@ -1,13 +1,16 @@
 package org.hellforge.raspberry.task;
 
+import org.hellforge.raspberry.entity.TemperatureEntity;
 import org.hellforge.raspberry.entity.ThermometerEntity;
-import org.hellforge.raspberry.helper.GetSystemOut;
+import org.hellforge.raspberry.helper.Helper;
+import org.hellforge.raspberry.service.TemperatureService;
 import org.hellforge.raspberry.service.ThermometerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Date;
 
 /**
  * Created by Anton Afanasyeu on 17.03.16.
@@ -17,20 +20,29 @@ public class GetTempTask {
 
     @Autowired
     ThermometerService thermometerService;
+    @Autowired
+    TemperatureService temperatureService;
 
     @Scheduled(fixedRate=5000)
-    public void printMessage() throws IOException, InterruptedException {
+    public void insertTemp() throws IOException, InterruptedException {
 
         for(ThermometerEntity thermometerEntity: thermometerService.getAllThermometer()){
-            thermometerEntity.setTemp(getTemp(thermometerEntity.getId()));
+            Double temp = Helper.getTemp(thermometerEntity.getId());
+            thermometerEntity.setTemp(temp);
             thermometerService.save(thermometerEntity);
+            TemperatureEntity temperatureEntity = new TemperatureEntity(temp, new Date());
+            temperatureService.save(temperatureEntity);
         }
 
     }
 
-    private double getTemp(String tempId) throws IOException, InterruptedException {
-        String str = GetSystemOut.getSystemOut("cat /sys/bus/w1/devices/"+tempId+"/w1_slave");
-        str = str.substring(str.indexOf("t=")+2);
-        return Integer.parseInt(str)/1000.0;
+    @Scheduled(cron="*/5 * * * * *")
+    public void insertTempForStatistic() throws IOException, InterruptedException {
+
+        for(ThermometerEntity thermometerEntity: thermometerService.getAllThermometer()){
+            TemperatureEntity temperatureEntity = new TemperatureEntity(thermometerEntity.getTemp(), new Date());
+            temperatureService.save(temperatureEntity);
+        }
+
     }
 }

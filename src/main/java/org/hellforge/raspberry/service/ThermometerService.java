@@ -25,4 +25,6 @@ public class ThermometerService {
     public ThermometerEntity save(ThermometerEntity thermometerEntity){
         return thermometerRepository.save(thermometerEntity);
     }
+
+
 }
