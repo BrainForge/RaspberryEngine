@@ -11,12 +11,15 @@ import java.util.Date;
 @Document
 public class TemperatureEntity {
 
+    @Field("idDevice")
+    private String idDevice;
     @Field("temp")
     private Double temp;
     @Field("date")
     private Date date;
 
-    public TemperatureEntity(Double temp, Date date) {
+    public TemperatureEntity(String idDevice, Double temp, Date date) {
+        this.idDevice = idDevice;
         this.temp = temp;
         this.date = date;
     }
@@ -38,5 +41,13 @@ public class TemperatureEntity {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public String getId() {
+        return idDevice;
+    }
+
+    public void setId(String idDevice) {
+        this.idDevice = idDevice;
     }
 }

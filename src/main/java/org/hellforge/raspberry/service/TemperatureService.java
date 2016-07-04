@@ -18,8 +18,12 @@ public class TemperatureService {
     @Autowired
     private TemperatureRepository temperatureRepository;
 
-    public List<TemperatureEntity> getAllThermometer(){
+    public List<TemperatureEntity> getAll(){
         return temperatureRepository.findAll();
+    }
+
+    public List<TemperatureEntity> getById(String id){
+        return temperatureRepository.findByIdDevice(id);
     }
 
     public TemperatureEntity save(TemperatureEntity thermometerEntity){

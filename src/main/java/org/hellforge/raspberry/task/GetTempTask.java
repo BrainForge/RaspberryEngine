@@ -30,17 +30,15 @@ public class GetTempTask {
             Double temp = Helper.getTemp(thermometerEntity.getId());
             thermometerEntity.setTemp(temp);
             thermometerService.save(thermometerEntity);
-            TemperatureEntity temperatureEntity = new TemperatureEntity(temp, new Date());
-            temperatureService.save(temperatureEntity);
         }
 
     }
 
-    @Scheduled(cron="*/5 * * * * *")
+    @Scheduled(cron="0 */30 * * * *")
     public void insertTempForStatistic() throws IOException, InterruptedException {
 
         for(ThermometerEntity thermometerEntity: thermometerService.getAllThermometer()){
-            TemperatureEntity temperatureEntity = new TemperatureEntity(thermometerEntity.getTemp(), new Date());
+            TemperatureEntity temperatureEntity = new TemperatureEntity(thermometerEntity.getId(), thermometerEntity.getTemp(), new Date());
             temperatureService.save(temperatureEntity);
         }
 
