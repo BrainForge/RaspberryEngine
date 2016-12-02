@@ -1,6 +1,7 @@
 package org.hellforge.raspberry.mongoRepository;
 
 import org.hellforge.raspberry.entity.TemperatureEntity;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 import java.util.List;
@@ -10,6 +11,6 @@ import java.util.List;
  */
 public interface TemperatureRepository extends MongoRepository<TemperatureEntity, String> {
 
-    List<TemperatureEntity> findByIdDevice(String id);
+    List<TemperatureEntity> findByIdDevice(String id, Pageable pageable);
 
 }
