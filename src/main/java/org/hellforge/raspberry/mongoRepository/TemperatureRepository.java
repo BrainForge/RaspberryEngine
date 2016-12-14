@@ -11,6 +11,6 @@ import java.util.List;
  */
 public interface TemperatureRepository extends MongoRepository<TemperatureEntity, String> {
 
-    List<TemperatureEntity> findByIdDevice(String id, Pageable pageable);
+    List<TemperatureEntity> findByIdDeviceOrderByDateDesc(String id, Pageable pageable);
 
 }

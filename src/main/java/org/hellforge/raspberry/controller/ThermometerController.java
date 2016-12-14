@@ -1,6 +1,12 @@
 package org.hellforge.raspberry.controller;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hellforge.raspberry.entity.ThermometerEntity;
+import org.hellforge.raspberry.parser.Parser;
+import org.hellforge.raspberry.parserEntity.EventEntity;
+import org.hellforge.raspberry.parserEntity.OtherEventEntity;
+import org.hellforge.raspberry.parserEntity.TemperatureEventEntity;
 import org.hellforge.raspberry.response.APIResponse;
 import org.hellforge.raspberry.response.APIResponseBuilder;
 import org.hellforge.raspberry.response.TemperatureDTO;
@@ -13,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,6 +34,8 @@ public class ThermometerController {
     ThermometerService thermometerService;
     @Autowired
     TemperatureService temperatureService;
+    @Autowired
+    Parser parser;
 
     @RequestMapping(value = "", method = RequestMethod.GET)
     @ResponseBody
@@ -69,6 +78,46 @@ public class ThermometerController {
         }
 
         return APIResponseBuilder.build(thermometerDTOs);
+
+    }
+
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    @ResponseBody
+    public APIResponse<String> test() {
+
+        String json = "03:28:37.989 {\"id\":172,\"sid\":\"lumi.158d0001143109\",\"model\":\"lumi.sensor_ht.v1\",\"method\":\"props\",\"params\":{\"temperature\":2429}}";
+        boolean isEvent = parser.isEventModel(json);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        if(isEvent) {
+
+            json = json.substring(json.indexOf("{"));
+
+            try {
+                EventEntity eventEntity = mapper.readValue(json, EventEntity.class);
+
+                switch (eventEntity.getModel()) {
+                    case "lumi.sensor_ht.v1":
+                        eventEntity = mapper.readValue(json, TemperatureEventEntity.class);
+                        break;
+                    default:
+                        eventEntity = mapper.readValue(json, OtherEventEntity.class);
+                        break;
+                }
+
+                Class c = eventEntity.getClass();
+
+                json = json;
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+
+        return APIResponseBuilder.build("Ok");
 
     }
 

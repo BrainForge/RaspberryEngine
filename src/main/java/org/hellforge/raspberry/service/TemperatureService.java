@@ -24,7 +24,7 @@ public class TemperatureService {
     }
 
     public List<TemperatureEntity> getById(String id){
-        return temperatureRepository.findByIdDevice(id, new PageRequest(0,100));
+        return temperatureRepository.findByIdDeviceOrderByDateDesc(id, new PageRequest(0,100));
     }
 
     public TemperatureEntity save(TemperatureEntity thermometerEntity){
